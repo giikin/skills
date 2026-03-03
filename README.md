@@ -2,6 +2,16 @@
 
 Giikin 公司级 [Agent Skills](https://agentskills.io/home) 技能库，为团队 AI 编码助手提供统一的开发规范、工具使用指南和最佳实践。
 
+## 技能列表
+
+| 技能 | 描述 |
+|------|------|
+| [frontend-mandatory-standards](skills/frontend-mandatory-standards) | 前端开发规范 — Composition API、命名约定、接口调用、Pinia 状态管理、组件拆分等 |
+| [giime-components](skills/giime-components) | Giime 组件库使用规范 — gm-* 组件增强特性、插件用法、MCP 文档获取 |
+| [zerone-cli](skills/zerone-cli) | Zerone CLI 工具集 — API 代码生成、字体图标管理、项目脚手架、工作日志 |
+| [apifox-mock](skills/apifox-mock) | Apifox Mock 数据生成规范 — Mock.js JSON、高级 Mock 脚本、本地 mock 文件 |
+| [git-auto-commit-push](skills/git-auto-commit-push) | Git 自动暂存、提交并推送 — 智能分组提交、自动拉取推送 |
+
 ## 安装
 
 ```bash
@@ -53,16 +63,6 @@ npx skills add giikin/skills --skill='*' -a cursor
 | **Copy** | 创建独立副本，适用于不支持符号链接的环境 |
 
 更多 CLI 用法参见 [skills CLI](https://github.com/vercel-labs/skills)。
-
-## 技能列表
-
-| 技能 | 描述 |
-|------|------|
-| [frontend-mandatory-standards](skills/frontend-mandatory-standards) | 前端开发规范 — Composition API、命名约定、接口调用、Pinia 状态管理、组件拆分等 |
-| [giime-components](skills/giime-components) | Giime 组件库使用规范 — gm-* 组件增强特性、插件用法、MCP 文档获取 |
-| [zerone-cli](skills/zerone-cli) | Zerone CLI 工具集 — API 代码生成、字体图标管理、项目脚手架、工作日志 |
-| [apifox-mock](skills/apifox-mock) | Apifox Mock 数据生成规范 — Mock.js JSON、高级 Mock 脚本、本地 mock 文件 |
-| [git-auto-commit-push](skills/git-auto-commit-push) | Git 自动暂存、提交并推送 — 智能分组提交、自动拉取推送 |
 
 ## 常用命令
 
