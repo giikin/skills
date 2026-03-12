@@ -128,6 +128,102 @@ VITE_BASE_{FOLDER_NAME_UPPER}_API=/guard
   2. 运行 pnpm api:{folderName} 生成接口代码
 ```
 
+---
+
+## swagger.config.json 配置参考
+
+完整配置示例：
+
+```json
+{
+  "docsUrl": "https://genapi-giime.giikin.com/apifox?projectId=7479596",
+  "includeTags": ["基础服务/语种管理"],
+  "excludeTags": [],
+  "includePaths": ["/basic/v1/currency/listAll"],
+  "excludePaths": ["/basic/v1/language/remove"],
+  "axiosInstanceUrl": "@/api/gstore/request",
+  "vueUseAxios": "giime"
+}
+```
+
+### 字段说明
+
+| 字段               | 类型                | 必填 | 默认值            | 说明                                                                                                                |
+| ------------------ | ------------------- | ---- | ----------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `docsUrl`          | `string`            | 是   | —                 | Swagger 文档地址，支持 HTTP 链接或本地 JSON 文件相对路径                                                            |
+| `includeTags`      | `string[]`          | 否   | `[]`              | 只生成匹配的 tag 的接口，支持前缀匹配                                                                               |
+| `excludeTags`      | `string[]`          | 否   | `[]`              | 排除匹配的 tag 的接口，支持前缀匹配                                                                                 |
+| `includePaths`     | `string[]`          | 否   | `[]`              | 只生成指定路径的接口，精确匹配                                                                                      |
+| `excludePaths`     | `string[]`          | 否   | `[]`              | 排除指定路径的接口，精确匹配                                                                                        |
+| `axiosInstanceUrl` | `string`            | 否   | `@/utils/request` | 生成代码中 axios 实例的导入路径                                                                                     |
+| `vueUseAxios`      | `boolean \| string` | 否   | —                 | 是否生成 useAxios hooks 文件。`true` 使用 `@vueuse/integrations/useAxios`，传字符串则自定义导入路径（如 `"giime"`） |
+
+### docsUrl
+
+文档数据来源，支持两种形式：
+
+- **HTTP 链接**：如 `https://genapi-giime.giikin.com/apifox?projectId=7479596`，工具会通过 HTTP 请求获取 Swagger JSON
+- **本地文件路径**：如 `./docs/api.json`，相对于 swagger.config.json 所在目录解析
+
+### 接口过滤（includeTags / excludeTags / includePaths / excludePaths）
+
+四个过滤字段组合使用，优先级从低到高：
+
+1. **Tags 过滤**：先根据 `includeTags` / `excludeTags` 决定接口是否保留（支持前缀匹配，如 `"基础服务"` 可匹配 `"基础服务/语种管理"`）
+2. **includePaths 强制包含**：匹配到的路径会覆盖 Tags 过滤结果，强制保留该接口
+3. **excludePaths 强制排除**：优先级最高，匹配到的路径无论 Tags 结果如何都会被排除
+
+空数组 `[]` 表示不过滤。`includeTags` 和 `excludeTags` 都为空时，所有 tag 的接口都会生成。
+
+#### 过滤示例
+
+只生成某个模块下的接口：
+
+```json
+{
+  "includeTags": ["基础服务/语种管理"],
+  "excludeTags": []
+}
+```
+
+生成所有接口但排除某几个路径：
+
+```json
+{
+  "includeTags": [],
+  "excludeTags": [],
+  "excludePaths": ["/basic/v1/language/remove", "/basic/v1/area/delete"]
+}
+```
+
+按 tag 过滤，但额外包含某个特定路径：
+
+```json
+{
+  "includeTags": ["用户管理"],
+  "includePaths": ["/basic/v1/currency/listAll"]
+}
+```
+
+仅生成某一个（或几个）特定接口：
+
+```json
+{
+  "includeTags": [""],
+  "includePaths": ["/basic/v1/currency/listAll"]
+}
+```
+
+> `includeTags` 设为 `[""]` 会使所有 tag 都不匹配（空字符串不会前缀匹配任何 tag），从而排除全部接口；再通过 `includePaths` 强制包含指定路径，最终只生成这些路径对应的接口。
+
+### vueUseAxios
+
+控制是否为每个接口额外生成 `useXxx` 风格的 hooks 文件：
+
+- **不传或 `false`**：不生成
+- **`true`**：生成，useAxios 从 `@vueuse/integrations/useAxios` 导入
+- **字符串**（如 `"giime"`）：生成，useAxios 从指定路径导入
+
 ## 注意事项
 
 1. **folderName 命名规范**：推荐使用驼峰命名（如 `materialComposer`）
