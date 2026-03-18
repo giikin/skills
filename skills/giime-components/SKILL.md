@@ -52,7 +52,7 @@ const handleDelete = () => {
 
 ### 异步按钮（自动 loading）
 
-绑定异步函数即可，无需手动管理 loading 状态。当按钮仅执行 `emit` 而不返回 Promise 时，不会触发自动 loading：
+绑定异步函数即可，无需手动管理 loading 状态：
 
 ```vue
 <gm-button @click="handleSubmit">提交</gm-button>
@@ -63,6 +63,26 @@ const handleSubmit = async () => {
   await submitForm();
   GmMessage.success('提交成功');
 };
+```
+
+`gm-button` 的自动 loading 依赖 `@click` 返回 Promise。`$emit()` 是同步的、不返回 Promise，不会触发自动 loading。子组件中的按钮需要执行父组件的异步操作时，使用 props 回调函数代替 emit：
+
+```vue
+<!-- ❌ emit 不返回 Promise，按钮无 loading -->
+<gm-button @click="$emit('delete', row.id)">删除</gm-button>
+
+<!-- ✅ props 回调返回 Promise，按钮自动 loading -->
+<gm-button @click="onDelete(row.id)">删除</gm-button>
+```
+
+```ts
+// 子组件：用 props 接收异步回调
+defineProps<{
+  onDelete: (id: string) => Promise<void>;
+}>();
+
+// 父组件：传入异步函数
+// <ChildComponent :on-delete="handleDelete" />
 ```
 
 ### 选择器（:options 写法）
