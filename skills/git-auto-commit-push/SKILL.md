@@ -129,13 +129,37 @@ git push
 - 避免"修复问题"、"新增功能"这类模糊表述
 - 若用户或仓库规则要求纯中文、简洁摘要，则优先遵循用户或仓库规则
 
+### 避免「优化 + 名称」式模糊摘要
+
+主题行**不得**仅靠「优化」叠在符号名、文件名或组件名上，而不说明**具体改动类型或可感知结果**。这类写法信息量接近零，无法判断影响范围与审阅重点。
+
+**不合格示例（应避免生成或沿用）：**
+
+```
+refactor(resource): 💡 优化 InterfaceDefinition 与 useExportDialogOptions
+refactor(resource): 💡 优化 Table 组件
+```
+
+**改写要求：**
+
+- 用**可观察的改动**替代笼统的「优化」：抽离/合并/重命名/收窄类型/减少重复渲染/提取常量/调整 props 契约等，至少写出一项
+- 尽量带上一句**效果或动机**（修复何种问题、消除何种重复、便于何种后续改动）
+- **自检**：去掉「优化」二字后，若剩余内容几乎没有实质描述，则必须重写主题行
+
+**合格示例（同一意图的更好写法）：**
+
+```
+refactor(resource): 💡 导出对话框选项抽离为 useExportDialogOptions，收窄 InterfaceDefinition 导出字段
+refactor(ui): 💡 Table 列宽改为 flex 布局，修复窄屏横向滚动条溢出
+```
+
 **示例：**
 
 ```
 feat(linkTrans): 🎸 新增图片翻译结果预览和下载功能
 fix(auth): 🐛 修复 token 过期后未自动刷新导致请求失败
-refactor(store): 💡 重构任务状态管理，优化轮询逻辑
-chore(commands): 🤖 新增自动提交推送命令，优化开发流程
+refactor(store): 💡 任务状态与轮询合并为单一 store 流程，去掉重复 setInterval
+chore(commands): 🤖 新增自动提交推送命令，补充分组与推送步骤说明
 ```
 
 ## 执行示例
@@ -155,7 +179,7 @@ M  tailwind.config.js
 ```bash
 # 提交 1: linkTrans 模块
 git add src/modules/agent/linkTrans/index.vue src/modules/agent/linkTrans/stores/useLinkTransStore.ts src/modules/agent/linkTrans/components/NewFeature.vue
-git commit -m "feat(linkTrans): 🎸 新增翻译结果组件，优化 store 状态管理逻辑"
+git commit -m "feat(linkTrans): 🎸 新增翻译结果组件，翻译进度与结果由 store 统一派生"
 
 # 提交 2: 配置文件
 git add .cursor/commands/git-commit.md tailwind.config.js
