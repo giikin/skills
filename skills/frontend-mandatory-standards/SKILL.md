@@ -46,8 +46,8 @@ const urlToFile: (url: string, options?: FileConversionOptions) => Promise<File>
   - **Vue 工具**：`vueuse`（`tryOnMounted`、`useEventListener`、`useLocalStorage` 等）
   - **数据处理**：`lodash-es`（`compact`、`cloneDeep`、`uniqBy` 等 ES 未提供的方法）
 - **Git 操作**：不要操作 git 命令，除非用户明确要求
-- **格式化**：修改后执行 `npx eslint --fix <文件路径>`
-- **类型检查**：执行 `npx vue-tsc --noEmit -p tsconfig.app.json`
+- **格式化**：修改代码后执行 `npx eslint --fix <文件路径>`，发现并自动修复代码风格与语法问题
+- **类型检查**：修改代码后执行 `npx vue-tsc --noEmit -p tsconfig.app.json`，发现类型错误与潜在的运行时问题
 
 更多示例见 [coding-conventions.md](references/coding-conventions.md)
 
