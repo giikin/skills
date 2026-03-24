@@ -7,8 +7,6 @@ description: Zerone CLI 工具集使用规范。涵盖 API 接口代码生成（
 
 Zerone CLI (`@zeronejs/cli`) 是团队内部的前端工程化工具，提供四大核心功能。
 
-**所有 zerone 命令需要 `required_permissions: ["all"]` 权限执行**，否则无法访问全局 node_modules 导致命令失败。
-
 ## 功能索引（按使用频率排序）
 
 根据用户意图匹配对应功能，阅读对应的 references 文档后执行操作。
